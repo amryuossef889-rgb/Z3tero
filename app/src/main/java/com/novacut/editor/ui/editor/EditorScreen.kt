@@ -795,32 +795,42 @@ fun EditorScreen(
             val hasClips = state.tracks.any { it.clips.isNotEmpty() }
             if (!isImmersivePreview) {
                 // Compact creator bar: project identity, persistence state, history, and export.
-                EditorTopBar(
-                    projectName = state.project.name,
-                    onRename = viewModel::renameProject,
-                    onBack = onBack,
-                    onUndo = viewModel::undo,
-                    onRedo = viewModel::redo,
-                    canUndo = state.undoStack.isNotEmpty(),
-                    canRedo = state.redoStack.isNotEmpty(),
-                    selectedClipId = state.selectedClipId,
-                    onDelete = viewModel::deleteSelectedClip,
-                    onDuplicateClip = viewModel::duplicateSelectedClip,
-                    onSplitClip = viewModel::splitClipAtPlayhead,
-                    onAddMedia = viewModel::showMediaPicker,
-                    onAddTrack = viewModel::addTrack,
-                    onExport = viewModel::showExportSheet,
-                    onSaveTemplate = viewModel::saveAsTemplate,
-                    editorMode = state.editorMode,
-                    onToggleEditorMode = viewModel::toggleEditorMode,
-                    onOpenScratchpad = viewModel::showScratchpad,
-                    onOpenV369Features = viewModel::showV369Features,
-                    onSearch = viewModel::showCommandPalette,
-                    editConfidenceStatus = editConfidenceStatus,
-                    onOpenHistory = viewModel::showUndoHistory,
-                    onOpenSnapshots = viewModel::showSnapshotHistory,
-                    onApplyCutList = { viewModel.applyCutList(it) },
-                )
+                if (davinciWorkspace) {
+                    DavinciTopBar(
+                        viewModel = viewModel,
+                        projectName = state.project.name,
+                        onBack = onBack,
+                        canUndo = state.undoStack.isNotEmpty(),
+                        canRedo = state.redoStack.isNotEmpty()
+                    )
+                } else {
+                    EditorTopBar(
+                        projectName = state.project.name,
+                        onRename = viewModel::renameProject,
+                        onBack = onBack,
+                        onUndo = viewModel::undo,
+                        onRedo = viewModel::redo,
+                        canUndo = state.undoStack.isNotEmpty(),
+                        canRedo = state.redoStack.isNotEmpty(),
+                        selectedClipId = state.selectedClipId,
+                        onDelete = viewModel::deleteSelectedClip,
+                        onDuplicateClip = viewModel::duplicateSelectedClip,
+                        onSplitClip = viewModel::splitClipAtPlayhead,
+                        onAddMedia = viewModel::showMediaPicker,
+                        onAddTrack = viewModel::addTrack,
+                        onExport = viewModel::showExportSheet,
+                        onSaveTemplate = viewModel::saveAsTemplate,
+                        editorMode = state.editorMode,
+                        onToggleEditorMode = viewModel::toggleEditorMode,
+                        onOpenScratchpad = viewModel::showScratchpad,
+                        onOpenV369Features = viewModel::showV369Features,
+                        onSearch = viewModel::showCommandPalette,
+                        editConfidenceStatus = editConfidenceStatus,
+                        onOpenHistory = viewModel::showUndoHistory,
+                        onOpenSnapshots = viewModel::showSnapshotHistory,
+                        onApplyCutList = { viewModel.applyCutList(it) },
+                    )
+                }
 
                 // Empty project onboarding hint
                 if (!hasClips && !hasOpenPanel) {
