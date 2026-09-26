@@ -185,7 +185,7 @@ fun DavinciInspector(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
             InspectorSection("Clip") {
                 InspectorValue("Source", selectedClip.sourceUri.lastPathSegment?.substringAfterLast('/') ?: "clip")
                 InspectorValue("Start", formatStudioTime(selectedClip.timelineStartMs))
-                InspectorValue("Duration", formatStudioTime(selectedClip.timelineDurationMs))
+                InspectorValue("Duration", formatStudioTime(selectedClip.timelineEndMs - selectedClip.timelineStartMs))
             }
         }
     }
