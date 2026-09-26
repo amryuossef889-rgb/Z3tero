@@ -237,17 +237,23 @@ fun DavinciInspector(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
             }
         } else {
             InspectorSection("Transform") {
-                InspectorAction("Position / Scale", Icons.Default.PanTool) { viewModel.showTransformPanel() }
-                InspectorAction("Crop", Icons.Default.Crop) { viewModel.showCropPanel() }
-                InspectorAction("Speed", Icons.Default.Speed) { viewModel.showSpeedCurveEditor() }
+                InspectorValue("Position", "0.00 / 0.00")
+                InspectorValue("Zoom", "1.00")
+                InspectorValue("Rotation", "0.00°")
             }
-            InspectorSection("Effects") {
-                InspectorAction("Effects", Icons.Default.Effects) { viewModel.showEffectsPanel() }
-                InspectorAction("Color", Icons.Default.AutoFixHigh) { viewModel.showColorGrading() }
+            InspectorSection("Cropping") {
+                InspectorValue("Left", "0")
+                InspectorValue("Right", "0")
+                InspectorValue("Top", "0")
+                InspectorValue("Bottom", "0")
+            }
+            InspectorSection("Retime and Scaling") {
+                InspectorValue("Speed", "1.00x")
+                InspectorValue("Scaling", "Fit")
             }
             InspectorSection("Audio") {
-                InspectorAction("Audio controls", Icons.Default.AudioFile) { viewModel.showAudioPanel() }
-                InspectorAction("Mixer", Icons.Default.MusicNote) { viewModel.showAudioMixer() }
+                InspectorValue("Volume", "0.0 dB")
+                InspectorValue("Pan", "Center")
             }
             InspectorSection("Clip") {
                 InspectorValue("Source", selectedClip.sourceUri.lastPathSegment?.substringAfterLast('/') ?: "clip")
