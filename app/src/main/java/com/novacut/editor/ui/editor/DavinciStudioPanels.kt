@@ -109,7 +109,7 @@ fun DavinciMediaPool(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
         modifier = modifier.fillMaxHeight().background(Color(0xFF171717)).padding(8.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth().height(32.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Default.Film, null, tint = colors.text, modifier = Modifier.size(15.dp))
+            Icon(Icons.Default.VideoLibrary, null, tint = colors.text, modifier = Modifier.size(15.dp))
             Spacer(Modifier.width(7.dp))
             Text("Media Pool", color = colors.text, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
             Spacer(Modifier.weight(1f))
