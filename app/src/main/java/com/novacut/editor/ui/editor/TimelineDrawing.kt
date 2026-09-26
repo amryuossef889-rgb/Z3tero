@@ -55,7 +55,11 @@ internal fun DrawScope.drawTimeRuler(
                 val totalSeconds = (currentMs / 1000).toInt()
                 val min = totalSeconds / 60
                 val sec = totalSeconds % 60
-                val label = "%02d:%02d:%02d".format(\n                    totalSeconds / 3600,\n                    (totalSeconds % 3600) / 60,\n                    totalSeconds % 60\n                )
+                val label = "%02d:%02d:%02d".format(
+                    totalSeconds / 3600,
+                    (totalSeconds % 3600) / 60,
+                    totalSeconds % 60
+                )
                 val measured = textMeasurer.measure(label, labelStyle)
                 drawText(
                     textLayoutResult = measured,
