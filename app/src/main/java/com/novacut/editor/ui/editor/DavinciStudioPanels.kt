@@ -18,6 +18,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import coil3.compose.AsyncImage
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -161,11 +163,11 @@ fun DavinciMediaPool(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
                             modifier = Modifier.fillMaxWidth().aspectRatio(1.55f).background(Color(0xFF0D0D0D)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Icon(
-                                Icons.Default.VideoFile,
-                                contentDescription = null,
-                                tint = colors.subtext,
-                                modifier = Modifier.size(30.dp)
+                            AsyncImage(
+                                model = clip.sourceUri,
+                                contentDescription = clip.sourceUri.lastPathSegment,
+                                modifier = Modifier.fillMaxSize(),
+                                contentScale = ContentScale.Crop
                             )
                             Icon(
                                 when (trackType) {
@@ -176,7 +178,7 @@ fun DavinciMediaPool(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
                                     TrackType.ADJUSTMENT -> Icons.Default.Tune
                                 },
                                 null,
-                                tint = Color.White.copy(alpha = 0.78f),
+                                tint = Color.White.copy(alpha = 0.82f),
                                 modifier = Modifier.align(Alignment.BottomStart).padding(4.dp).size(13.dp)
                             )
                         }
@@ -234,28 +236,12 @@ fun DavinciInspector(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
                 InspectorValue("Duration", formatStudioTime(state.totalDurationMs))
             }
         } else {
-            InspectorSection("Transform") {
-                InspectorValue("Position", "0.00 / 0.00")
-                InspectorValue("Zoom", "1.00")
-                InspectorValue("Rotation", "0.00°")
-            }
-            InspectorSection("Cropping") {
-                InspectorValue("Left", "0")
-                InspectorValue("Right", "0")
-                InspectorValue("Top", "0")
-                InspectorValue("Bottom", "0")
-            }
-            InspectorSection("Retime and Scaling") {
-                InspectorValue("Speed", "1.00x")
-                InspectorValue("Scaling", "Fit")
-            }
-            InspectorSection("Audio") {
-                InspectorValue("Volume", "0.0 dB")
-                InspectorValue("Pan", "Center")
-            }
+            // Only show values that come from the real Clip model; never fake
+            // transform/audio values merely to fill the Inspector.
             InspectorSection("Clip") {
                 InspectorValue("Source", selectedClip.sourceUri.lastPathSegment?.substringAfterLast('/') ?: "clip")
-                InspectorValue("Start", formatStudioTime(selectedClip.timelineStartMs))
+                InspectorValue("Timeline In", formatStudioTime(selectedClip.timelineStartMs))
+                InspectorValue("Timeline Out", formatStudioTime(selectedClip.timelineEndMs))
                 InspectorValue("Duration", formatStudioTime(selectedClip.timelineEndMs - selectedClip.timelineStartMs))
             }
         }
