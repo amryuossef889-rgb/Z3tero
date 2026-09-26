@@ -20,6 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ClearCut"
+rootProject.name = "Z3ter-"
 include(":app")
 include(":baselineprofile")
