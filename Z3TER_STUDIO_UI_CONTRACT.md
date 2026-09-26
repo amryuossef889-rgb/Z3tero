@@ -78,3 +78,19 @@ Match the supplied reference composition, spacing hierarchy, dark graphite surfa
 ## Functional rule
 
 No placeholder playback, waveform, timeline, media, or export implementations. Existing real ClearCut engine behavior must remain intact while the presentation is rebuilt.
+
+
+## Visual-only DaVinci fidelity layer
+
+The following elements are explicitly visual/UI targets. Their appearance should closely reproduce the supplied DaVinci Resolve reference while their existing Z3ter/ClearCut behavior remains unchanged underneath:
+
+- playhead shape, color, handle, line, and visual placement
+- timeline ruler, ticks, labels, separators, and density
+- video/audio clip blocks and their visual styling
+- waveform drawing, scale, density, and lane presentation
+- track headers, mute/solo/lock/visibility controls and visual states
+- timeline zoom controls, zoom indicator, and ruler scaling appearance
+- trim handles, edit markers, selection outlines, snapping indicators, and transition visuals
+- viewer chrome, transport buttons, scopes/graphs, inspector controls, media thumbnails, panel dividers, and professional dark NLE styling
+
+**Critical rule:** visual reproduction must not replace or rewrite the underlying editor functions. A real clip remains a real clip; a real waveform remains generated from real media; the real playhead remains connected to the real timeline position; real zoom continues to control the real timeline. We are changing the presentation layer to match the reference, not faking the behavior.
