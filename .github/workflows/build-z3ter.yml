@@ -25,7 +25,13 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x gradlew
 
-      - name: Assemble debug APK
+      - name: Run JVM tests
+        run: ./gradlew :app:testDebugUnitTest --stacktrace --write-verification-metadata sha256
+
+      - name: Run Android lint
+        run: ./gradlew :app:lintDebug --stacktrace --write-verification-metadata sha256
+
+      - name: Assemble final debug APK
         run: ./gradlew :app:assembleDebug --stacktrace --write-verification-metadata sha256
 
       - name: Upload APK
