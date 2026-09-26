@@ -2,41 +2,36 @@
 
 ## Visual target
 
-The supplied reference image is the primary desktop/tablet editor composition target. It is a professional dark NLE workspace with these persistent regions:
+The supplied DaVinci Resolve reference screenshot is the PRIMARY visual target.
 
-1. **Top application bar**
-   - compact project/title area
-   - workspace/navigation controls
-   - transport and utility controls
-   - dark graphite chrome with thin separators
+### Fidelity requirement: DaVinci-style workspace
 
-2. **Left media/project column**
-   - project/media navigation
-   - bin/category list
-   - thumbnail media browser
-   - lower project/effect area
+Z3ter- is intended to reproduce the DaVinci Resolve-style editing workspace as closely as the target Android tablet/device permits. Do not redesign the workspace into a generic mobile editor and do not substitute a simplified card/grid UI.
 
-3. **Center upper viewer**
-   - large dual-viewer composition
-   - source viewer on the left
-   - program/timeline viewer on the right
-   - black viewer background
-   - transport controls directly below/around the viewers
+The editor workspace must preserve the reference's overall composition and visual hierarchy:
 
-4. **Right inspector/mixer column**
-   - inspector controls
-   - audio/mixer controls
-   - parameter groups and sliders
-   - scopes/graph area when enabled
+- dark professional NLE chrome and panel surfaces
+- top application/workspace bar
+- left Media Pool / bins / media browser
+- large central dual-viewer area
+- right Inspector / audio / parameter area
+- dense bottom multi-track timeline
+- visible time ruler and frame/time positions
+- red vertical playhead
+- track headers and controls
+- clip blocks with thumbnails
+- audio clips with real waveforms
+- compact professional transport/tool controls
+- narrow separators and dense information layout
+- proportional panel sizing matching the reference rather than large mobile cards
 
-5. **Bottom timeline**
-   - time ruler with visible time/frame values
-   - red playhead spanning the timeline
-   - track headers and controls
-   - video, overlay, text and audio tracks
-   - clip thumbnails
-   - audio waveforms
-   - dense professional multi-track presentation
+For tablet/desktop-sized displays, the goal is the closest practical visual reproduction of the reference composition, including panel placement, relative widths/heights, spacing density, typography hierarchy, controls, and timeline presentation.
+
+On phones, the same workspace identity remains the target, but panels may responsively collapse or become navigable when the physical screen cannot contain the full composition. This is a layout adaptation, not permission to replace the editor with a different visual design.
+
+### Important distinction
+
+The UI may reproduce the visual organization and interaction model of the reference, but all editor behavior must remain Z3ter-/ClearCut's real implementation. Never draw fake clips, fake waveforms, fake playback, or fake controls merely to make a screenshot look correct.
 
 ## Interaction requirement
 
