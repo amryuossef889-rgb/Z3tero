@@ -27,11 +27,11 @@ val bundleTaskRequested = gradle.startParameter.taskNames.any { taskName ->
 }
 
 android {
-    namespace = "com.novacut.editor"
+    namespace = "com.z3ter.editor"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.novacut.editor"
+        applicationId = "com.z3ter.editor"
         minSdk = 26
         targetSdk = 37
         versionCode = 299
