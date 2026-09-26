@@ -1,0 +1,72 @@
+name: Apply Z3ter foundation and studio identity
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: z3tero-foundation
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: ${{ !contains(github.event.head_commit.message, '[z3ter-foundation-applied]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Z3tero
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply Z3ter package namespace and product identity
+        shell: bash
+        run: |
+          set -euxo pipefail
+
+          for root in app/src/main app/src/test app/src/androidTest baselineprofile; do
+            if [ -d "$root/java/com/novacut/editor" ]; then
+              mkdir -p "$root/java/com/z3ter"
+              mv "$root/java/com/novacut/editor" "$root/java/com/z3ter/editor"
+              rm -rf "$root/java/com/novacut"
+            fi
+          done
+
+          find app baselineprofile -type f \( -name '*.kt' -o -name '*.kts' -o -name '*.xml' -o -name '*.pro' -o -name '*.json' -o -name '*.txt' \) -print0 |
+            xargs -0 sed -i               -e 's/com\.novacut\.editor/com.z3ter.editor/g'               -e 's/com\.novacut/com.z3ter/g'
+
+          sed -i 's/rootProject.name = "ClearCut"/rootProject.name = "Z3ter-"/' settings.gradle.kts
+          sed -i 's/namespace = "com\.novacut\.editor"/namespace = "com.z3ter.editor"/' app/build.gradle.kts
+          sed -i 's/applicationId = "com\.novacut\.editor"/applicationId = "com.z3ter.editor"/' app/build.gradle.kts
+
+          if [ -f app/src/main/res/values/strings.xml ]; then
+            sed -i -e 's/>ClearCut</>Z3ter-</g' app/src/main/res/values/strings.xml
+          fi
+
+          python3 - <<'PY'
+from pathlib import Path
+for path in [Path("README.md"), Path("CHANGELOG.md")]:
+    if path.exists():
+        s = path.read_text(encoding="utf-8")
+        s = s.replace("<h1 align=\"center\">ClearCut</h1>", "<h1 align=\"center\">Z3ter-</h1>")
+        path.write_text(s, encoding="utf-8")
+PY
+
+      - name: Add Z3ter studio UI contract
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p docs
+          cp Z3TER_STUDIO_UI_CONTRACT.md docs/Z3TER_STUDIO_UI_CONTRACT.md
+
+      - name: Commit
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "[z3ter-foundation-applied] Apply Z3ter identity to ClearCut foundation" || exit 0
+          git push origin master
