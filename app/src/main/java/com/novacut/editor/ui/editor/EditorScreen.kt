@@ -632,8 +632,7 @@ fun EditorScreen(
         // DaVinci-style desktop workspace: fixed media-pool and inspector columns
         // surround the real ClearCut editor engine. On smaller phone layouts the
         // existing adaptive editor remains unchanged.
-        val davinciWorkspace = layoutMode == LayoutMode.DESKTOP &&
-            !isImmersivePreview &&
+        val davinciWorkspace = !isImmersivePreview &&
             configuration.screenWidthDp >= 900
         val desktopSidebarWidth = if (davinciWorkspace) 252.dp else 0.dp
         val davinciInspectorWidth = if (davinciWorkspace) 286.dp else 0.dp
