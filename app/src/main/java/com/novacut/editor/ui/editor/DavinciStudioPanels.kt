@@ -30,6 +30,73 @@ import com.novacut.editor.model.TrackType
 import com.novacut.editor.ui.theme.ClearCutAccents
 import com.novacut.editor.ui.theme.LocalClearCutColors
 
+
+@Composable
+fun DavinciTopBar(
+    viewModel: EditorViewModel,
+    projectName: String,
+    onBack: () -> Unit,
+    canUndo: Boolean,
+    canRedo: Boolean
+) {
+    val colors = LocalClearCutColors.current
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(42.dp)
+            .background(Color(0xFF121212))
+            .padding(horizontal = 7.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Z3ter-",
+            color = Color.White,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
+        Text("Media", color = colors.subtext, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 7.dp))
+        Text("Cut", color = colors.subtext, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 7.dp))
+        Text("Edit", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(horizontal = 7.dp))
+        Text("Fusion", color = colors.subtext, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 7.dp))
+        Text("Color", color = colors.subtext, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 7.dp))
+        Text("Fairlight", color = colors.subtext, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 7.dp))
+        Text("Deliver", color = colors.subtext, fontSize = 10.sp, modifier = Modifier.padding(horizontal = 7.dp))
+        Spacer(Modifier.weight(1f))
+        Text(
+            text = projectName,
+            color = colors.text,
+            fontSize = 10.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.widthIn(max = 260.dp)
+        )
+        Spacer(Modifier.width(8.dp))
+        StudioIconButton("Undo", canUndo) { viewModel.undo() }
+        StudioIconButton("Redo", canRedo) { viewModel.redo() }
+        StudioIconButton("Add", true) { viewModel.showMediaPicker() }
+        StudioIconButton("Export", true) { viewModel.showExportSheet() }
+        StudioIconButton("Search", true) { viewModel.showCommandPalette() }
+        StudioIconButton("Back", true) { onBack() }
+    }
+}
+
+@Composable
+private fun StudioIconButton(label: String, enabled: Boolean, onClick: () -> Unit) {
+    val colors = LocalClearCutColors.current
+    Surface(
+        modifier = Modifier
+            .size(width = 46.dp, height = 28.dp)
+            .padding(horizontal = 2.dp)
+            .clickable(enabled = enabled, onClick = onClick),
+        color = Color.Transparent
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(label, color = if (enabled) colors.subtextStrong else Color(0xFF4A4A4A), fontSize = 8.sp)
+        }
+    }
+}
+
 @Composable
 fun DavinciMediaPool(viewModel: EditorViewModel, modifier: Modifier = Modifier) {
     val colors = LocalClearCutColors.current
