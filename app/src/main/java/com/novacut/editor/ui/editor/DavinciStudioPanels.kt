@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
-import com.novacut.editor.model.EditorViewModel
 import com.novacut.editor.model.TrackType
 import com.novacut.editor.ui.theme.ClearCutAccents
 import com.novacut.editor.ui.theme.LocalClearCutColors
