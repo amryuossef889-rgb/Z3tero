@@ -2616,8 +2616,8 @@ fun Timeline(
                                         .fillMaxHeight()
                                 ) {
                                     drawRect(
-                                        color = ClearCutAccents.Sky,
-                                        size = Size(2f * density.density, size.height)
+                                        color = Color(0xFFE31B23),
+                                        size = Size(2.2f * density.density, size.height)
                                     )
                                 }
                             }
@@ -2631,8 +2631,8 @@ fun Timeline(
                 if (playheadPx >= 0) {
                     Canvas(
                         modifier = Modifier
-                            .offset(x = with(density) { (playheadPx - 6).toDp() })
-                            .size(12.dp, rulerHeight)
+                            .offset(x = with(density) { (playheadPx - 7).toDp() })
+                            .size(14.dp, rulerHeight)
                     ) {
                         // Triangle playhead
                         val path = Path().apply {
@@ -2641,7 +2641,7 @@ fun Timeline(
                             lineTo(size.width, 0f)
                             close()
                         }
-                        drawPath(path, ClearCutAccents.Sky)
+                        drawPath(path, Color(0xFFE31B23))
                     }
                 }
             }
