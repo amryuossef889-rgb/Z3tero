@@ -94,3 +94,8 @@ The following elements are explicitly visual/UI targets. Their appearance should
 - viewer chrome, transport buttons, scopes/graphs, inspector controls, media thumbnails, panel dividers, and professional dark NLE styling
 
 **Critical rule:** visual reproduction must not replace or rewrite the underlying editor functions. A real clip remains a real clip; a real waveform remains generated from real media; the real playhead remains connected to the real timeline position; real zoom continues to control the real timeline. We are changing the presentation layer to match the reference, not faking the behavior.
+
+
+## Final build gate
+
+The final CI lane must pass JVM tests, Android lint, and the debug APK assembly before an APK is treated as a verified build artifact. No UI-only placeholder values may be presented as live editor state.
