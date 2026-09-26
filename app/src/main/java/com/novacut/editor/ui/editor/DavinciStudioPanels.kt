@@ -19,13 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
 import com.novacut.editor.model.TrackType
 import com.novacut.editor.ui.theme.ClearCutAccents
 import com.novacut.editor.ui.theme.LocalClearCutColors
@@ -163,11 +161,11 @@ fun DavinciMediaPool(viewModel: EditorViewModel, modifier: Modifier = Modifier) 
                             modifier = Modifier.fillMaxWidth().aspectRatio(1.55f).background(Color(0xFF0D0D0D)),
                             contentAlignment = Alignment.Center
                         ) {
-                            AsyncImage(
-                                model = clip.sourceUri,
+                            Icon(
+                                Icons.Default.VideoFile,
                                 contentDescription = null,
-                                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-                                contentScale = ContentScale.Crop
+                                tint = colors.subtext,
+                                modifier = Modifier.size(30.dp)
                             )
                             Icon(
                                 when (trackType) {
