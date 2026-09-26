@@ -33,7 +33,7 @@ internal fun DrawScope.drawTimeRuler(
     var currentMs = startMs
     val labelStyle = TextStyle(
         color = labelColor,
-        fontSize = 9.sp
+        fontSize = 8.sp
     )
 
     while (true) {
@@ -55,7 +55,7 @@ internal fun DrawScope.drawTimeRuler(
                 val totalSeconds = (currentMs / 1000).toInt()
                 val min = totalSeconds / 60
                 val sec = totalSeconds % 60
-                val label = if (min > 0) "$min:${"%02d".format(sec)}" else "${sec}s"
+                val label = "%02d:%02d:%02d".format(\n                    totalSeconds / 3600,\n                    (totalSeconds % 3600) / 60,\n                    totalSeconds % 60\n                )
                 val measured = textMeasurer.measure(label, labelStyle)
                 drawText(
                     textLayoutResult = measured,
@@ -82,10 +82,10 @@ internal fun DrawScope.drawTimelineWaveform(samples: List<Float>, color: Color) 
         val x = i * 3f
 
         drawLine(
-            color = color.copy(alpha = 0.7f),
+            color = color.copy(alpha = 0.82f),
             start = Offset(x, centerY - barH),
             end = Offset(x, centerY + barH),
-            strokeWidth = 2f
+            strokeWidth = 1.5f
         )
     }
 }
@@ -95,6 +95,7 @@ internal fun volumeKeyframesSorted(clip: Clip): List<Keyframe> =
         .filter { it.property == KeyframeProperty.VOLUME }
         .sortedBy { it.timeOffsetMs }
 
+// Fallback appearance only; real decoded waveform samples always use drawTimelineWaveform().
 internal fun DrawScope.drawTimelineWaveformPlaceholder(color: Color) {
     val steps = (size.width / 4f).toInt().coerceAtLeast(1)
     val centerY = size.height / 2f
