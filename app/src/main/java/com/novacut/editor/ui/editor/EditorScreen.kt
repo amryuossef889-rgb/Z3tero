@@ -629,22 +629,26 @@ fun EditorScreen(
             } else false
         }
     ) {
-        // v3.69 DESKTOP layout — fixed 260 dp left sidebar (Media Bin + quick
-        // actions + v3.69 hub entry). Absent on PHONE / ONE_HANDED so the
-        // existing layout is untouched when no desktop surface is present.
-        val compactDesktop = layoutMode == LayoutMode.DESKTOP &&
+        // DaVinci-style desktop workspace: fixed media-pool and inspector columns
+        // surround the real ClearCut editor engine. On smaller phone layouts the
+        // existing adaptive editor remains unchanged.
+        val davinciWorkspace = layoutMode == LayoutMode.DESKTOP &&
             !isImmersivePreview &&
-            configuration.screenWidthDp < 600
-        val desktopSidebarWidth = when {
-            layoutMode != LayoutMode.DESKTOP || isImmersivePreview -> 0.dp
-            compactDesktop -> 84.dp
-            else -> 260.dp
-        }
-        if (layoutMode == LayoutMode.DESKTOP && !isImmersivePreview) {
-            DesktopSidebar(
+            configuration.screenWidthDp >= 900
+        val desktopSidebarWidth = if (davinciWorkspace) 252.dp else 0.dp
+        val davinciInspectorWidth = if (davinciWorkspace) 286.dp else 0.dp
+        if (davinciWorkspace) {
+            DavinciMediaPool(
                 viewModel = viewModel,
-                compact = compactDesktop,
-                modifier = Modifier.align(Alignment.TopStart)
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .width(desktopSidebarWidth)
+            )
+            DavinciInspector(
+                viewModel = viewModel,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .width(davinciInspectorWidth)
             )
         }
         val editorOnAction: (String) -> Unit = { actionId ->
@@ -764,10 +768,10 @@ fun EditorScreen(
                 .fillMaxSize()
                 .padding(
                     start = desktopSidebarWidth,
-                    end = if (!isImmersivePreview && useEmbeddedExportPane) {
-                        embeddedExportPaneWidth
-                    } else {
-                        0.dp
+                    end = when {
+                        !isImmersivePreview && useEmbeddedExportPane -> embeddedExportPaneWidth
+                        davinciWorkspace -> davinciInspectorWidth
+                        else -> 0.dp
                     }
                 )
                 .then(if (isTutorialOpen) Modifier.clearAndSetSemantics { } else Modifier)
