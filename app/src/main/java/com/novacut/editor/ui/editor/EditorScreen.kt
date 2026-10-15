@@ -604,9 +604,14 @@ fun EditorScreen(
                         viewModel.setZoomLevel((state.zoomLevel * 0.75f).coerceAtLeast(0.1f))
                         true
                     }
-                    // S = split at playhead
-                    event.key == Key.S && !event.isCtrlPressed -> {
+                    // B = razor / split at playhead (S remains as a compatibility alias)
+                    (event.key == Key.B || event.key == Key.S) && !event.isCtrlPressed -> {
                         viewModel.splitAtPlayhead()
+                        true
+                    }
+                    // V = return to the default selection tool
+                    event.key == Key.V && !event.isCtrlPressed -> {
+                        viewModel.setTool(EditorTool.NONE)
                         true
                     }
                     // Ctrl+S = save project

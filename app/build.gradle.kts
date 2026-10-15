@@ -31,7 +31,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.z3ter.editor"
+        applicationId = "com.novacut.editor"
         minSdk = 26
         targetSdk = 37
         versionCode = 299

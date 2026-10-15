@@ -3,6 +3,8 @@ name: Build Z3ter Android
 on:
   push:
     branches: [master]
+  pull_request:
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -26,15 +28,18 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run JVM tests
-        run: ./gradlew :app:testDebugUnitTest --stacktrace --write-verification-metadata sha256
+        run: ./gradlew :app:testQaUnitTest --stacktrace --write-verification-metadata sha256
 
       - name: Run Android lint
+        if: always()
         run: ./gradlew :app:lintDebug --stacktrace --write-verification-metadata sha256
 
       - name: Assemble final debug APK
+        if: always()
         run: ./gradlew :app:assembleDebug --stacktrace --write-verification-metadata sha256
 
       - name: Upload APK
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: z3ter-debug-apk
