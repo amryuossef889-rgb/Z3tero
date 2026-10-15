@@ -30,6 +30,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.onVisibilityChanged
@@ -1362,6 +1363,30 @@ fun Timeline(
                                 onZoomChanged(newZoom)
                                 val panMs = (safePan / newPpm).toLong()
                                 onScrollChanged((newScroll - panMs).coerceAtLeast(0L))
+                            }
+                        }
+                        // Desktop mouse wheel zoom, anchored under the cursor.
+                        .pointerInput(currentZoomLevel, currentScrollOffsetMs) {
+                            awaitPointerEventScope {
+                                while (true) {
+                                    val event = awaitPointerEvent()
+                                    if (event.type == PointerEventType.Scroll) {
+                                        val change = event.changes.firstOrNull()
+                                        val deltaY = change?.scrollDelta?.y ?: 0f
+                                        val cursorX = change?.position?.x ?: 0f
+                                        if (deltaY.isFinite() && deltaY != 0f) {
+                                            val oldPpm = (currentZoomLevel * BASE_SCALE).coerceAtLeast(0.0001f)
+                                            val factor = if (deltaY < 0f) 1.12f else 0.89f
+                                            val newZoom = TimelineToolbarPolicy.clampZoom(currentZoomLevel * factor)
+                                            val newPpm = (newZoom * BASE_SCALE).coerceAtLeast(0.0001f)
+                                            val anchorMs = currentScrollOffsetMs + (cursorX / oldPpm).toLong()
+                                            val newScroll = anchorMs - (cursorX / newPpm).toLong()
+                                            onZoomChanged(newZoom)
+                                            onScrollChanged(newScroll.coerceAtLeast(0L))
+                                            change?.consume()
+                                        }
+                                    }
+                                }
                             }
                         }
                 ) {
