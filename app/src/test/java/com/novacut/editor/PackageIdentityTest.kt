@@ -66,7 +66,7 @@ class PackageIdentityTest {
             "<string name=\"app_name\">Z3tero</string>"
         ))
         assertTrue(locate("app/src/main/res/values-es/strings.xml").readText().contains(
-            "<string name=\"app_name\">ClearCut</string>"
+            "<string name=\"app_name\">Z3tero</string>"
         ))
     }
 
