@@ -20,6 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Z3ter-"
+rootProject.name = "Z3tero"
 include(":app")
 include(":baselineprofile")
